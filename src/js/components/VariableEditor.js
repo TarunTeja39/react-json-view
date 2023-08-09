@@ -71,6 +71,28 @@ class VariableEditor extends React.PureComponent {
                     this.setState({ ...this.state, hovered: false })
                 }
                 class="variable-row"
+                onClick={
+                        onSelect === false && onEdit === false
+                            ? null
+                            : e => {
+                                  let location = [...namespace];
+                                  if (
+                                      keyModifier(e, 'edit') &&
+                                      onEdit !== false
+                                  ) {
+                                      this.prepopInput(variable);
+                                  } else if (onSelect !== false) {
+                                      location.shift();
+                                      onSelect({
+                                          ...variable,
+                                          namespace: location
+                                      });
+                                  }
+                              }
+                    }
+                    {...Theme(theme, 'variableValue', {
+                        cursor: onSelect === false ? 'default' : 'pointer'
+                    })}
                 key={variable.name}
             >
                 {type == 'array' ? (
